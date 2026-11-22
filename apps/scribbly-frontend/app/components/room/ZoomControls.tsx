@@ -1,8 +1,7 @@
 "use client";
 
-// 🔍 Bottom-left zoom cluster for the infinite desk — the same sticker styling
-// as the tool rail. Engine handles come in as plain callbacks so this stays
-// a dumb presentational piece.
+// Bottom-left zoom cluster for the infinite desk, styled like the tool rail.
+// Engine handles come in as plain callbacks so this stays a dumb presentational piece.
 interface ZoomControlsProps {
   zoom: number;
   onZoomIn: () => void;
@@ -19,7 +18,7 @@ export function ZoomControls({ zoom, onZoomIn, onZoomOut, onReset }: ZoomControl
       <button type="button" title="Zoom out" onClick={onZoomOut} className={BTN}>
         −
       </button>
-      {/* 📊 Clicking the percentage snaps back to 100% */}
+      {/* Clicking the percentage snaps back to 100% */}
       <button
         type="button"
         title="Reset zoom"

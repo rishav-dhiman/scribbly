@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 export function CopyLink() {
-  // 📋 Copies the same slug the room would use; local origin keeps it honest
   const [copied, setCopied] = useState(false);
 
   async function copy() {

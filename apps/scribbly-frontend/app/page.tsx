@@ -3,7 +3,7 @@ import { CopyLink } from "./components/CopyLink";
 import { InteractiveBoard } from "./components/InteractiveBoard";
 import { AuthArea, AuthCta } from "./components/landing/AuthLinks";
 
-// 💜 Four-point sparkle — the running doodle through the page
+// Four-point sparkle: the running doodle through the page
 function Sparkle({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -17,7 +17,7 @@ function Sparkle({ className = "" }: { className?: string }) {
   );
 }
 
-// ✏️ Hand-drawn underline for the headline
+// Hand-drawn underline for the headline
 function Scribble({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -34,7 +34,7 @@ function Scribble({ className = "" }: { className?: string }) {
   );
 }
 
-// ➰ A wobbly arrow for annotations
+// A wobbly arrow for annotations
 function DoodleArrow({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -102,7 +102,6 @@ function TickerGroup() {
 export default function Home() {
   return (
     <div className="relative flex flex-1 flex-col overflow-x-clip">
-      {/* 🧭 Top bar */}
       <header className="sticky top-0 z-40 border-b border-white/5 bg-zinc-950/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
           <Link href="/" className="group flex items-center gap-2.5">
@@ -136,9 +135,9 @@ export default function Home() {
       </header>
 
       <main className="relative flex flex-1 flex-col">
-        {/* 🚀 Hero: the headline is a thought, the board is the proof */}
+        {/* Hero: the headline is a thought, the board is the proof */}
         <section className="relative mx-auto grid w-full max-w-6xl items-center gap-16 px-6 pt-14 pb-20 lg:grid-cols-[0.92fr_1.08fr] lg:pt-24">
-          {/* faint dot field behind the copy — the canvas showing through */}
+          {/* faint dot field behind the copy, so the canvas shows through */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 top-0 h-full bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[26px_26px] mask-[linear-gradient(to_bottom,black,transparent_85%)]"
@@ -194,7 +193,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* 🖼️ The real thing */}
           <div id="board" className="relative min-w-0 scroll-mt-24 lg:-rotate-1 lg:transition-transform lg:duration-500 lg:hover:rotate-0">
             {/* washi tape */}
             <span
@@ -219,7 +217,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 🎞️ Ticker on a strip of violet tape */}
         <div className="relative -rotate-1 overflow-hidden border-y border-black/30 bg-[#6965db] py-3">
           <div className="flex w-max animate-marquee">
             <TickerGroup />
@@ -227,7 +224,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ✨ Features as a pinboard of tiles */}
         <section id="features" className="scroll-mt-24 py-24">
           <div className="mx-auto w-full max-w-6xl px-6">
             <p className="font-hand text-2xl text-amber-200">
@@ -245,7 +241,6 @@ export default function Home() {
             </p>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-              {/* 🟪 Big tile: canvas */}
               <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/30 sm:col-span-2 lg:col-span-4">
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -290,7 +285,6 @@ export default function Home() {
                 </div>
               </article>
 
-              {/* 🟩 Small tile: together */}
               <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/30 sm:col-span-2 lg:col-span-2">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-lg font-semibold text-zinc-100">
@@ -318,7 +312,6 @@ export default function Home() {
                 </div>
               </article>
 
-              {/* 🟫 Tile: chat */}
               <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/30 lg:col-span-2">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-lg font-semibold text-zinc-100">
@@ -354,7 +347,6 @@ export default function Home() {
                 </div>
               </article>
 
-              {/* 🟨 Tile: rooms */}
               <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/30 lg:col-span-2">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-lg font-semibold text-zinc-100">
@@ -380,7 +372,6 @@ export default function Home() {
                 </p>
               </article>
 
-              {/* 🟦 Tile: saved */}
               <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/30 lg:col-span-2">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-lg font-semibold text-zinc-100">
@@ -417,7 +408,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 🪜 How it works — a doodled path, not a stepper component */}
+        {/* How it works: a doodled path, not a stepper component */}
         <section
           id="how"
           className="relative scroll-mt-24 border-t border-white/5 bg-white/1.5 py-24"
@@ -482,7 +473,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 🎉 CTA on a sheet of warm paper, taped to the dark page */}
+        {/* CTA on a sheet of warm paper, taped to the dark page */}
         <section className="mx-auto w-full max-w-6xl px-6 py-24">
           <div className="relative overflow-hidden rounded-[28px] border border-black/15 bg-[#f6f1e4] px-8 py-14 text-[#1f1c14] shadow-[0_40px_100px_-40px_rgba(0,0,0,0.95)] sm:px-12">
             {/* tape + doodles */}
@@ -529,7 +520,6 @@ export default function Home() {
         </section>
       </main>
 
-      {/* 🦶 Footer */}
       <footer className="border-t border-white/5 py-10">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
           <div className="flex flex-col items-center gap-0.5 sm:items-start">

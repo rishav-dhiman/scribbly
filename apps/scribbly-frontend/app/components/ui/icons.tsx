@@ -1,7 +1,7 @@
 import type { SVGProps } from "react";
 
-// ✏️ Hand-drawn inline icon set — stroke-based with round caps to match the
-// ink-on-paper vibe. No emoji anywhere; pass className to size (h-3.5 w-3.5 …)
+// Hand-drawn inline icon set: stroke-based with round caps to match the
+// ink-on-paper vibe. No emoji anywhere; pass className to size (h-3.5 w-3.5 ...)
 type IconProps = SVGProps<SVGSVGElement>;
 
 const base = {
@@ -14,7 +14,7 @@ const base = {
   strokeLinejoin: "round",
 } as const;
 
-// ✍️ the pen holding the marker
+// the pen holding the marker
 export function PenIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -23,7 +23,7 @@ export function PenIcon(props: IconProps) {
   );
 }
 
-// 🔗 two chain links
+// two chain links
 export function LinkIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -33,7 +33,7 @@ export function LinkIcon(props: IconProps) {
   );
 }
 
-// 🧱 the wall — a 2×2 grid of pinned notes
+// the wall: a 2x2 grid of pinned notes
 export function WallIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -45,7 +45,7 @@ export function WallIcon(props: IconProps) {
   );
 }
 
-// 🏠 the landing — a little house
+// the landing: a little house
 export function HomeIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -55,7 +55,7 @@ export function HomeIcon(props: IconProps) {
   );
 }
 
-// 🗑 delete — bin with a lid
+// delete: bin with a lid
 export function TrashIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -66,7 +66,7 @@ export function TrashIcon(props: IconProps) {
   );
 }
 
-// ✕ close / remove
+// close / remove
 export function XIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>

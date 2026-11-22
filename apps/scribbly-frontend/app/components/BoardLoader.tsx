@@ -8,7 +8,7 @@ import { BACKEND_URL } from "@/app/config";
 import { RoomCanvas } from "@/app/components/RoomCanvas";
 import { StickyNote } from "@/app/components/ui/StickyNote";
 
-// 🗺️ Resolves /board/[slug] → room id, then hands off to the canvas. Also the
+// Resolves /board/[slug] -> room id, then hands off to the canvas. Also the
 // auth gate: expired sessions go to /signin, unknown slugs get a paper 404.
 type Status = "loading" | "ready" | "missing";
 
@@ -28,7 +28,7 @@ export function BoardLoader({ params }: { params: Promise<{ slug: string }> }) {
       .catch((err) => {
         const code = err.response?.status;
         if (code === 401 || code === 403) {
-          router.replace("/signin"); // 🔒 stale or missing session
+          router.replace("/signin"); // stale or missing session
           return;
         }
         setStatus("missing");

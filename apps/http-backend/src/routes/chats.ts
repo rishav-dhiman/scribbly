@@ -5,10 +5,10 @@ import { authMiddleware } from "../middleware.js";
 
 export const chatsRouter: Router = Router();
 
-// 📜 CHAT HISTORY: protected (cookie required), returns the latest 50 messages
+// Chat history: protected (cookie required), returns the latest 50 messages
 chatsRouter.get("/chats/:roomId", authMiddleware, async (req: Request, res: Response) => {
   try {
-    // 🔢 URL params are always strings - convert and validate
+    // URL params are always strings, so convert and validate
     const roomId = Number(req.params.roomId);
 
     if (isNaN(roomId)) {
@@ -28,7 +28,7 @@ chatsRouter.get("/chats/:roomId", authMiddleware, async (req: Request, res: Resp
         id: "desc",
       },
       take: 50,
-      // 🏷️ Chat rows store only userId, so pull the sender's name along.
+      // Chat rows store only userId, so pull the sender's name along.
       // "join" = one SQL statement (one round trip); the default strategy
       // would fetch the chats first and then the users in a second query (~2x slower to Neon)
       include: {
@@ -37,7 +37,7 @@ chatsRouter.get("/chats/:roomId", authMiddleware, async (req: Request, res: Resp
       relationLoadStrategy: "join",
     });
 
-    // 📨 Shape history rows exactly like live socket messages: { message, userId, userName }
+    // Shape history rows exactly like live socket messages: { message, userId, userName }
     res.json({
       messages: chatHistory.reverse().map(({ user, ...chat }) => ({
         message: chat.message,
@@ -46,7 +46,7 @@ chatsRouter.get("/chats/:roomId", authMiddleware, async (req: Request, res: Resp
       })),
     });
   } catch (error) {
-    console.error("❌ Failed to fetch room chat logs:", error);
+    console.error("Failed to fetch room chat logs:", error);
     res
       .status(500)
       .json({ message: "Internal server error retrieving history logs" });

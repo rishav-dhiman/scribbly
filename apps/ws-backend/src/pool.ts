@@ -1,11 +1,11 @@
 import { WebSocket } from "ws";
 import type { User } from "./types.js";
 
-// 🟢 Global in-memory pool tracking all active connection windows
+// In-memory pool tracking all active connection windows
 export const users: User[] = [];
 
-// 👥 Build a room's roster (deduped by userId — one avatar per ACCOUNT, not per
-// open tab) and push it to every socket subscribed to that room, trigger included
+// Build a room's roster (deduped by userId: one avatar per account, not per
+// open tab) and push it to every socket subscribed to that room, sender included.
 export function broadcastPresence(roomId: number) {
   const seen = new Map<string, string>();
   users.forEach((user) => {

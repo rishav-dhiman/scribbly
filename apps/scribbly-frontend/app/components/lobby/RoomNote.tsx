@@ -8,7 +8,7 @@ import { Tape } from "../ui/PaperCard";
 import { ConfirmDialog } from "../ui/ConfirmDialog";
 import { TrashIcon, XIcon } from "../ui/icons";
 
-// 📋 One room pinned to the lobby wall as a tilted paper note.
+// One room pinned to the lobby wall as a tilted paper note.
 export type WallRoom = {
   id: number;
   slug: string;
@@ -18,7 +18,7 @@ export type WallRoom = {
   _count: { shapes: number };
 };
 
-// 🎨 Sticky-note tints cycle so the wall doesn't look photocopied
+// Sticky-note tints cycle so the wall doesn't look photocopied
 const TINTS = [
   { bg: "#f3e3a3", ink: "#3f3310" },
   { bg: "#e0ddf5", ink: "#26234f" },
@@ -40,11 +40,11 @@ export function RoomNote({
   onRemoved: (id: number) => void;
 }) {
   const tint = tintFor(index);
-  // 📐 Neighboring notes lean a different way, like they were pinned by hand
+  // Neighboring notes lean a different way, like they were pinned by hand
   const tilt = ((index % 5) - 2) * 1.2;
 
-  // 🗑️ The creator deletes the room for EVERYONE; a member only takes it off
-  // their own wall. Both confirm first in the themed card — owner delete can't be undone.
+  // The creator deletes the room for EVERYONE; a member only takes it off
+  // their own wall. Both confirm first in the themed card, and owner delete can't be undone.
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
 
@@ -64,7 +64,7 @@ export function RoomNote({
       }
       onRemoved(room.id);
     } catch {
-      // 🙅 the note stays — nothing was deleted server-side
+      // The note stays, because nothing was deleted server-side
     } finally {
       setBusy(false);
       setConfirming(false);
@@ -90,7 +90,7 @@ export function RoomNote({
           pinned {new Date(room.createdAt).toLocaleDateString()}
         </p>
 
-        {/* ↗ The "open" affordance only shows on hover, keeps the wall clean */}
+        {/* The "open" affordance only shows on hover, which keeps the wall clean */}
         <span
           style={{ color: tint.ink }}
           className="mt-3 inline-block font-hand text-sm underline underline-offset-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
@@ -99,14 +99,14 @@ export function RoomNote({
         </span>
       </div>
 
-      {/* ↗ An invisible stretched link keeps the WHOLE note clickable */}
+      {/* An invisible stretched link keeps the WHOLE note clickable */}
       <Link
         href={`/board/${room.slug}`}
         aria-label={`Open ${room.slug}`}
         className="absolute inset-0"
       />
 
-      {/* ✕ sits above the link (z-index) so this click never opens the board */}
+      {/* The remove button sits above the link (z-index) so this click never opens the board */}
       <button
         type="button"
         onClick={() => setConfirming(true)}
@@ -121,7 +121,6 @@ export function RoomNote({
         )}
       </button>
 
-      {/* 🃏 Themed confirm card instead of the native alert */}
       <ConfirmDialog
         open={confirming}
         onCancel={() => setConfirming(false)}

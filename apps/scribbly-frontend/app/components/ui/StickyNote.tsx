@@ -2,7 +2,7 @@
 
 import { useRef, useState, type ReactNode } from "react";
 
-// 📌 A sticky note you can drag around — pointer-capture drag, used on the
+// A sticky note you can drag around (pointer-capture drag), used on the
 // landing board, auth pages, and the room lobby wall.
 export function StickyNote({
   children,

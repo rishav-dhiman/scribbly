@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import type { LineStyle, NoteColor, Tool } from "../draw";
 
-// ⌨️ Shortcut map — V·R·O·D·A·L·P·T, one letter per tool
+// Keyboard shortcut map: one letter per tool
 export const SHORTCUTS: Record<string, Tool> = {
   v: "select",
   r: "rect",
@@ -17,7 +17,7 @@ export const SHORTCUTS: Record<string, Tool> = {
   n: "note",
 };
 
-// 🧰 Tool dock — same tools and icons as the landing board, now a top-center
+// Tool dock: same tools and icons as the landing board, now a top-center
 // floating pill in the Excalidraw position.
 const TOOLS: { id: Tool; label: string; key: string; icon: ReactNode }[] = [
   {
@@ -69,7 +69,7 @@ const TOOLS: { id: Tool; label: string; key: string; icon: ReactNode }[] = [
     icon: <path d="M5 5.5h14M12 5.5V20" />,
   },
   {
-    // 📝 Square with a folded corner — the sticky note you click to place
+    // Square with a folded corner: the sticky note you click to place
     id: "note",
     label: "Sticky note",
     key: "N",
@@ -77,7 +77,7 @@ const TOOLS: { id: Tool; label: string; key: string; icon: ReactNode }[] = [
   },
 ];
 
-// 🎨 Paper swatches — shown right where the line-style toggle sits, but only
+// Paper swatches: shown right where the line-style toggle sits, but only
 // while the note tool is active (rough vs solid means nothing for paper)
 const NOTE_COLORS: { id: NoteColor; label: string; fill: string }[] = [
   { id: "yellow", label: "Yellow note", fill: "#f3e3a3" },
@@ -135,9 +135,9 @@ export function ToolBar({
         </button>
       ))}
 
-      {/* ✒️ Line style — applies to the NEXT shape you draw; each shape keeps
+      {/* Line style applies to the NEXT shape you draw; each shape keeps
           the style it was authored with, so the whole room stays consistent.
-          📝 While the note tool is active this row becomes paper swatches. */}
+          While the note tool is active this row becomes paper swatches. */}
       <span aria-hidden="true" className="mx-1 h-6 w-px bg-[#26234f]/15 dark:bg-white/15" />
       {tool === "note"
         ? NOTE_COLORS.map((c) => (

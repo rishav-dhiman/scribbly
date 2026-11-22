@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@repo/ui";
 import { Tape } from "./PaperCard";
 
-// 🃏 In-app confirm card — replaces the native window.confirm alert.
+// In-app confirm card that replaces the native window.confirm alert.
 // Same paper + tape + hand-font language as the wall notes.
 export function ConfirmDialog({
   open,
@@ -29,7 +29,7 @@ export function ConfirmDialog({
   onConfirm: () => void;
   onCancel: () => void;
 }) {
-  // ⌨️ Esc cancels, exactly like clicking the backdrop
+  // Esc cancels, exactly like clicking the backdrop
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
@@ -39,12 +39,12 @@ export function ConfirmDialog({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onCancel]);
 
-  // 🚪 Portal to <body>: the wall notes carry a rotate() transform, which would
+  // Portal to <body>: the wall notes carry a rotate() transform, which would
   // otherwise trap this fixed overlay inside one note's coordinate box
   return createPortal(
     <AnimatePresence>
       {open && (
-        // 🌫️ Backdrop swallows the click so a stray press can't hit the wall
+        // Backdrop swallows the click so a stray press can't hit the wall
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

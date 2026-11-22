@@ -15,14 +15,13 @@ import { DotField, Sparkle } from "../components/ui/Backdrop";
 export default function RoomsPage() {
   const router = useRouter();
 
-  // 👤 Session — fetched on mount; no/invalid cookie bounces to /signin
+  // Session: fetched on mount; a missing/invalid cookie bounces to /signin
   const [userName, setUserName] = useState("");
 
-  // 🧱 Boards pinned to the wall, newest first
   const [rooms, setRooms] = useState<WallRoom[]>([]);
   const [loadingRooms, setLoadingRooms] = useState(true);
 
-  // 🔐 Validate the real session (cookie + DB user), not just cookie presence
+  // Validate the real session (cookie + DB user), not just cookie presence
   useEffect(() => {
     axios
       .get(`${BACKEND_URL}/me`, { withCredentials: true })
@@ -30,7 +29,7 @@ export default function RoomsPage() {
       .catch(() => router.push("/signin"));
   }, [router]);
 
-  // 🧱 Load the wall. A broken list must not kick a signed-in user out,
+  // Load the wall. A broken list must not kick a signed-in user out,
   // so failures here only leave the wall empty.
   useEffect(() => {
     axios
@@ -42,14 +41,13 @@ export default function RoomsPage() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-zinc-950">
-      {/* · the board itself: dot field + a few hand-placed sparkles */}
+      {/* the board itself: dot field + a few hand-placed sparkles */}
       <DotField dotOpacity={0.08} />
       <Sparkle className="left-[8%] top-[14%] text-2xl text-[#8b87f5]/50">✦</Sparkle>
       <Sparkle className="right-[10%] top-[22%] text-xl text-[#f3e3a3]/40">✦</Sparkle>
       <Sparkle className="bottom-[12%] left-[16%] text-xl text-[#8b87f5]/40">✦</Sparkle>
 
       <div className="relative mx-auto max-w-5xl px-5 py-8">
-        {/* 🧷 Header: the wall's title + who is holding the marker */}
         <header className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <Link
@@ -70,11 +68,10 @@ export default function RoomsPage() {
             </p>
           </div>
 
-          {/* 👤 Session chip + the way out */}
           <SessionChip name={userName} />
         </header>
 
-        {/* 📌 The wall: pinned rooms + the taped "new board" note.
+        {/* The wall: pinned rooms + the taped "new board" note.
             Notes spring in one after another, like they're being pinned. */}
         <motion.main
           initial="hidden"
@@ -120,7 +117,7 @@ export default function RoomsPage() {
           </motion.div>
         </motion.main>
 
-        {/* 🕳 Empty-wall state: nothing pinned yet, nudge them to start one */}
+        {/* Empty-wall state: nothing pinned yet, nudge them to start one */}
         {!loadingRooms && rooms.length === 0 && (
           <div className="pointer-events-none mt-6 flex items-center gap-3 text-zinc-500">
             <ArrowDoodle ink className="w-16 text-[#8b87f5]" />

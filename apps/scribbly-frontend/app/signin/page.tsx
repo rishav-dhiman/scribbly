@@ -9,10 +9,9 @@ import { BACKEND_URL } from "../config";
 import { AuthShell } from "../components/auth/AuthShell";
 
 export default function SignInPage() {
-  // 🧭 After a successful sign-in, land on the room lobby (not the landing page)
+  // After a successful sign-in, land on the room lobby (not the landing page)
   const router = useRouter();
 
-  // 📝 Form state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,17 +23,17 @@ export default function SignInPage() {
     setLoading(true);
 
     try {
-      // 🚀 withCredentials lets the browser store the httpOnly cookie Express returns
+      // withCredentials lets the browser store the httpOnly cookie Express returns
       await axios.post(
         `${BACKEND_URL}/signin`,
         { email, password },
         { withCredentials: true },
       );
 
-      // ✅ Cookie is set -> go to the room lobby
+      // Cookie is set -> go to the room lobby
       router.push("/rooms");
     } catch (err) {
-      // ❌ Show the backend's message (401 wrong creds / 400 bad format), else a network hint
+      // Show the backend's message (401 wrong creds / 400 bad format), else a network hint
       if (axios.isAxiosError(err) && err.response?.data?.message) {
         setError(String(err.response.data.message));
       } else {
@@ -53,7 +52,6 @@ export default function SignInPage() {
       error={error}
       footer={
         <>
-          {/* 🔗 Link to the signup page */}
           <p className="mt-4 text-center text-xs text-[#26234f]/60">
             No account?{" "}
             <Link
@@ -67,7 +65,6 @@ export default function SignInPage() {
       }
     >
       <form onSubmit={handleSubmit}>
-        {/* 📧 Email field */}
         <label className="mt-4 block text-xs font-semibold tracking-wide text-[#26234f]/80">
           Email
           <input
@@ -80,7 +77,6 @@ export default function SignInPage() {
           />
         </label>
 
-        {/* 🔒 Password field */}
         <label className="mt-3 block text-xs font-semibold tracking-wide text-[#26234f]/80">
           Password
           <input
@@ -93,7 +89,6 @@ export default function SignInPage() {
           />
         </label>
 
-        {/* 🎟️ Submit */}
         <Button type="submit" disabled={loading} className="mt-5 w-full">
           {loading ? "Signing in..." : "Sign in"}
         </Button>

@@ -9,7 +9,7 @@ type Shape =
   | { id: number; kind: "arrow"; x1: number; y1: number; x2: number; y2: number }
   | { id: number; kind: "draw"; points: { x: number; y: number }[] };
 
-// 🖍️ The real tool rail — shortcuts match the ones a whiteboard user expects
+// The real tool rail: shortcuts match the ones a whiteboard user expects
 const tools: { id: Tool; label: string; key: string; icon: React.ReactNode }[] = [
   {
     id: "select",
@@ -60,7 +60,7 @@ function StickyNote({
   tone: "violet" | "amber";
   className: string;
 }) {
-  // 📌 Notes are draggable so the board behaves like a board, not an image
+  // Notes are draggable so the board behaves like a board, not an image
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const drag = useRef<{ x: number; y: number; ox: number; oy: number } | null>(
     null,
@@ -107,10 +107,10 @@ export function InteractiveBoard() {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [draft, setDraft] = useState<Shape | null>(null);
   const [hasDrawn, setHasDrawn] = useState(false);
-  // 🖱️ Your own cursor, rendered the way the room renders everyone else's
+  // Your own cursor, rendered the way the room renders everyone else's
   const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
 
-  // ⌨️ V / R / O / A / P switch tools, Esc drops back to select
+  // V / R / O / A / P switch tools, Esc drops back to select
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const target = e.target as HTMLElement | null;
@@ -124,7 +124,7 @@ export function InteractiveBoard() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // 🎯 Map screen pixels into the board's own coordinate system
+  // Map screen pixels into the board's own coordinate system
   function toBoardPoint(e: React.PointerEvent<SVGSVGElement>) {
     const svg = svgRef.current;
     if (!svg) return { x: 0, y: 0 };
@@ -211,7 +211,7 @@ export function InteractiveBoard() {
 
   return (
     <div className="relative">
-      {/* 🪟 Board chrome: the same frame the room uses, not a browser mockup */}
+      {/* Board chrome: the same frame the room uses, not a browser mockup */}
       <div className="relative overflow-hidden rounded-xl border border-white/10 bg-[#0c0c0e] shadow-[0_40px_120px_-40px_rgba(0,0,0,1)]">
         <div className="flex items-center justify-between gap-3 border-b border-white/5 px-4 py-2.5">
           <div className="flex items-center gap-2">
@@ -240,7 +240,6 @@ export function InteractiveBoard() {
         </div>
 
         <div className="relative h-95 sm:h-115 lg:h-130">
-          {/* · the dot grid is the board itself */}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.10)_1px,transparent_1px)] bg-size-[18px_18px]" />
 
           <svg
@@ -284,7 +283,7 @@ export function InteractiveBoard() {
               </marker>
             </defs>
 
-            {/* ✒️ Authored scene — draws itself on load */}
+            {/* Authored scene, draws itself on load */}
             <g
               fill="none"
               stroke="#8b8b95"
@@ -368,7 +367,7 @@ export function InteractiveBoard() {
               </text>
             </g>
 
-            {/* ✏️ Everything the visitor draws lives in violet */}
+            {/* Everything the visitor draws lives in violet */}
             <g
               fill="none"
               stroke="#b9b5ff"
@@ -383,7 +382,6 @@ export function InteractiveBoard() {
             </g>
           </svg>
 
-          {/* 🧰 Floating tool rail with real shortcuts */}
           <div className="absolute top-1/2 left-3 z-20 flex -translate-y-1/2 flex-col gap-1 rounded-lg border border-white/10 bg-[#101013]/90 p-1.5 shadow-xl backdrop-blur">
             {tools.map((t) => (
               <button
@@ -415,7 +413,6 @@ export function InteractiveBoard() {
             ))}
           </div>
 
-          {/* 📌 Two notes you can move around */}
           <StickyNote
             text="ship it"
             tone="violet"
@@ -427,7 +424,7 @@ export function InteractiveBoard() {
             className="right-[26%] bottom-[20%] rotate-2"
           />
 
-          {/* 🖱️ Riya wanders on her own; your cursor follows the real pointer */}
+          {/* Riya wanders on her own; your cursor follows the real pointer */}
           <div className="cursor-b absolute top-[30%] right-[34%] z-10 flex items-start gap-0.5">
             <svg
               viewBox="0 0 24 24"
@@ -461,7 +458,6 @@ export function InteractiveBoard() {
             </div>
           )}
 
-          {/* 🧭 Board status bar */}
           <div className="absolute inset-x-3 bottom-3 z-20 flex items-center justify-between gap-2">
             <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-[#101013]/90 px-1.5 py-1 font-mono text-[10px] text-zinc-400 backdrop-blur">
               <span className="px-1.5">100%</span>
@@ -489,7 +485,6 @@ export function InteractiveBoard() {
         </div>
       </div>
 
-      {/* 🏷️ Small caption outside the frame */}
       <div className="mt-3 flex items-center justify-between font-hand text-lg text-zinc-500">
         <span>this one&rsquo;s real — draw on it</span>
         <span className="hidden font-mono text-[10px] tracking-[0.2em] text-zinc-600 sm:inline">

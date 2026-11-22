@@ -1,4 +1,4 @@
-// · The dot-field backdrop shared by the landing hero and auth pages.
+// The dot-field backdrop shared by the landing hero and auth pages.
 // Render inside a `relative overflow-hidden` parent; it fills absolutely.
 export function DotField({
   className = "",
@@ -21,7 +21,7 @@ export function DotField({
   );
 }
 
-// ✦ A single hand-drawn sparkle mark, absolutely positioned by the caller.
+// A single hand-drawn sparkle mark, absolutely positioned by the caller.
 export function Sparkle({
   className = "",
   children = "✦",
@@ -39,7 +39,7 @@ export function Sparkle({
   );
 }
 
-// 🌌 The full scene: dot field + two sparkles, one violet, one warm.
+// The full scene: dot field + two sparkles, one violet, one warm.
 export function StarfieldBackdrop({ className = "" }: { className?: string }) {
   return (
     <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${className}`}>

@@ -6,9 +6,9 @@ import { useEffect, useState, type ReactNode } from "react";
 import { BACKEND_URL } from "../../config";
 import { SessionChip } from "../ui/SessionChip";
 
-// 🧭 Auth-aware landing chrome. Signed out keeps the usual CTAs; signed in
+// Auth-aware landing chrome. Signed out keeps the usual CTAs; signed in
 // swaps the navbar for the session chip and quietly empties the footer's
-// auth links — a returning user doesn't need to be sold a sign-in.
+// auth links, because a returning user doesn't need to be sold a sign-in.
 export function AuthArea({ variant }: { variant: "nav" | "footer" }) {
   const [userName, setUserName] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
@@ -21,7 +21,7 @@ export function AuthArea({ variant }: { variant: "nav" | "footer" }) {
       .finally(() => setChecked(true));
   }, []);
 
-  // 🤫 stay blank until /me answers so we never flash the wrong state
+  // Stay blank until /me answers so we never flash the wrong state
   if (!checked) return null;
 
   if (userName) {
@@ -55,7 +55,7 @@ export function AuthArea({ variant }: { variant: "nav" | "footer" }) {
   );
 }
 
-// 🚀 The big "Start drawing" buttons: signed-in users go straight to their
+// The big "Start drawing" buttons: signed-in users go straight to their
 // wall, signed-out ones still get the signup pitch.
 export function AuthCta({
   className,

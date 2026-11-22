@@ -5,7 +5,7 @@ import { authMiddleware } from "../middleware.js";
 
 export const shapesRouter: Router = Router();
 
-// 🎨 CANVAS HISTORY: protected (cookie required), returns the latest 200 shapes of a room
+// Canvas history: protected (cookie required), returns the latest 200 shapes of a room
 shapesRouter.get("/shapes/:roomId", authMiddleware, async (req: Request, res: Response) => {
   try {
     const roomId = Number(req.params.roomId);
@@ -37,7 +37,7 @@ shapesRouter.get("/shapes/:roomId", authMiddleware, async (req: Request, res: Re
       })),
     });
   } catch (error) {
-    console.error("❌ Failed to fetch room shapes:", error);
+    console.error("Failed to fetch room shapes:", error);
     res
       .status(500)
       .json({ message: "Internal server error retrieving canvas shapes" });

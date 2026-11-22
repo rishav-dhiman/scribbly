@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 🧩 Compile the shared TSX package instead of expecting prebuilt JS
+  // Compile the shared TSX package instead of expecting prebuilt JS
   transpilePackages: ["@repo/ui"],
-  /* config options here */
   experimental: {
     agentFeedback: true,
   },

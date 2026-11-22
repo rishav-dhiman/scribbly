@@ -2,14 +2,14 @@
 
 import type { WsPresence } from "@repo/zod-config";
 
-// 🎨 Deterministic avatar color — same userId always lands on the same hue
+// Deterministic avatar color: same userId always lands on the same hue
 export function avatarColor(userId: string) {
   let hue = 0;
   for (const ch of userId) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
   return `hsl(${hue} 60% 55%)`;
 }
 
-// 👥 Who is holding a marker right now — avatars + count, top-right of the board
+// Who is holding a marker right now: avatars + count, top-right of the board
 export function PresencePill({ members }: { members: WsPresence["members"] }) {
   return (
     <div
@@ -17,7 +17,7 @@ export function PresencePill({ members }: { members: WsPresence["members"] }) {
       className="flex items-center gap-2 rounded-full border border-[#26234f]/15 bg-[#fffdf6]/95 py-1 pl-2.5 pr-1.5 shadow-[0_8px_20px_-10px_rgba(38,35,79,0.4)] backdrop-blur dark:border-white/10 dark:bg-[#101013]/95 dark:shadow-[0_8px_20px_-10px_rgba(0,0,0,0.9)]"
     >
       <span className="flex items-center gap-1.5 font-hand text-sm font-semibold text-[#26234f]/80 dark:text-zinc-300">
-        {/* 🟢 green = the room connection is LIVE (violet reads as "brand", not "status") */}
+        {/* green = the room connection is LIVE (violet reads as "brand", not "status") */}
         <span className="animate-pulse-soft h-2 w-2 rounded-full bg-emerald-500" />
         {members.length} online
       </span>

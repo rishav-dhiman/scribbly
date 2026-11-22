@@ -1,5 +1,5 @@
 // @ts-nocheck
-import "dotenv/config"; // Loads your backend .env variables dynamically
+import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -15,6 +15,6 @@ export default defineConfig({
     seed: "node --import tsx src/seed.ts",
   },
   datasource: {
-    url: databaseUrl, // 👈 Satisfies the exact requirement of the Prisma 7 CLI
+    url: databaseUrl, // the Prisma 7 CLI reads the datasource URL from here
   },
 });

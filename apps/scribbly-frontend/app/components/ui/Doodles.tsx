@@ -1,5 +1,5 @@
-// ✏️ Hand-drawn SVG marks in the landing's ink style.
-// Purely presentational — no state, no events. `ink` makes paths draw themselves
+// Hand-drawn SVG marks in the landing's ink style.
+// Purely presentational: no state, no events. `ink` makes paths draw themselves
 // on mount (see globals.css). Use currentColor so callers set the ink color.
 
 type DoodleProps = {
@@ -7,7 +7,7 @@ type DoodleProps = {
   ink?: boolean;
 };
 
-// ⤳ A curved arrow, like someone sketched "look over here" on the board.
+// A curved arrow, like someone sketched "look over here" on the board.
 export function ArrowDoodle({ className = "", ink = false }: DoodleProps) {
   return (
     <svg
@@ -29,7 +29,7 @@ export function ArrowDoodle({ className = "", ink = false }: DoodleProps) {
   );
 }
 
-// 〰 A wobbly underline for emphasizing a handwritten word.
+// A wobbly underline for emphasizing a handwritten word.
 export function UnderlineDoodle({ className = "", ink = false }: DoodleProps) {
   return (
     <svg
@@ -51,7 +51,7 @@ export function UnderlineDoodle({ className = "", ink = false }: DoodleProps) {
   );
 }
 
-// ✺ A starburst scribble — the "new!" / "hey!" energy mark.
+// A starburst scribble: the "new!" / "hey!" energy mark.
 export function BurstDoodle({ className = "", ink = false }: DoodleProps) {
   return (
     <svg
@@ -72,7 +72,7 @@ export function BurstDoodle({ className = "", ink = false }: DoodleProps) {
   );
 }
 
-// ☁ A loose scribble circle for circling things on paper.
+// A loose scribble circle for circling things on paper.
 export function CircleDoodle({ className = "", ink = false }: DoodleProps) {
   return (
     <svg

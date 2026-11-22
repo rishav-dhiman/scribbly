@@ -9,10 +9,9 @@ import { BACKEND_URL } from "../config";
 import { AuthShell } from "../components/auth/AuthShell";
 
 export default function SignUpPage() {
-  // 🧭 After signup the backend has already signed us in -> straight to the lobby
+  // After signup the backend has already signed us in, so go straight to the lobby
   const router = useRouter();
 
-  // 📝 Form state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,17 +24,17 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
-      // 🚀 Backend creates the user AND sets the cookie in one call
+      // Backend creates the user AND sets the cookie in one call
       await axios.post(
         `${BACKEND_URL}/signup`,
         { name, email, password },
         { withCredentials: true },
       );
 
-      // ✅ Already logged in -> go to the room lobby
+      // Already logged in -> go to the room lobby
       router.push("/rooms");
     } catch (err) {
-      // ❌ Show validation / duplicate-email errors from the backend
+      // Show validation / duplicate-email errors from the backend
       if (axios.isAxiosError(err) && err.response?.data?.message) {
         setError(String(err.response.data.message));
       } else {
@@ -54,7 +53,6 @@ export default function SignUpPage() {
       error={error}
       footer={
         <>
-          {/* 🔗 Link to the signin page */}
           <p className="mt-4 text-center text-xs text-[#26234f]/60">
             Already have an account?{" "}
             <Link
@@ -68,7 +66,6 @@ export default function SignUpPage() {
       }
     >
       <form onSubmit={handleSubmit}>
-        {/* 👤 Name field */}
         <label className="mt-4 block text-xs font-semibold tracking-wide text-[#26234f]/80">
           Name
           <input
@@ -82,7 +79,6 @@ export default function SignUpPage() {
           />
         </label>
 
-        {/* 📧 Email field */}
         <label className="mt-3 block text-xs font-semibold tracking-wide text-[#26234f]/80">
           Email
           <input
@@ -95,7 +91,7 @@ export default function SignUpPage() {
           />
         </label>
 
-        {/* 🔒 Password field — rules in handwriting, like the landing notes */}
+        {/* Password rules in handwriting, like the landing notes */}
         <label className="mt-3 block text-xs font-semibold tracking-wide text-[#26234f]/80">
           Password
           <input
@@ -113,7 +109,6 @@ export default function SignUpPage() {
           </span>
         </label>
 
-        {/* 🎟️ Violet button comes from the shared tokens */}
         <Button type="submit" disabled={loading} className="mt-5 w-full">
           {loading ? "Creating account..." : "Create account"}
         </Button>

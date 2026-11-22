@@ -6,9 +6,7 @@ export const SignUpSchema = z.object({
     .string()
     .min(5)
     .max(100)
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/, // 🟢 Fixed the broken trailing bracket typo
-    ),
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]+$/),
   name: z.string().min(3).max(100),
 });
 
@@ -19,40 +17,39 @@ export const SignInSchema = z.object({
 
 export const CreateRoomSchema = z.object({
   slug: z.string().min(3).max(100).regex(/^[a-z0-9-]+$/, {
-    message: "Slug can only contain lowercase letters, numbers, and hyphens", // 🟢 Changed roomName to slug to match your Prisma model!
+    message: "Slug can only contain lowercase letters, numbers, and hyphens",
   }),
 });
 
-// 🟢 Exporting these inference types makes typing request bodies in Express incredibly easy!
 export type SignUpParams = z.infer<typeof SignUpSchema>;
 export type SignInParams = z.infer<typeof SignInSchema>;
 export type CreateRoomParams = z.infer<typeof CreateRoomSchema>;
 
-// 🔌 WebSocket event schemas - single source of truth for every packet the ws-server accepts
-// roomId uses coerce so both 123 and "123" string values pass
+// WebSocket event schemas: single source of truth for every packet the ws-server accepts.
+// roomId uses coerce so both 123 and "123" string values pass.
 
-// 🚪 Client asks to subscribe to a room channel
+// Client asks to subscribe to a room channel
 export const WsJoinRoomSchema = z.object({
-  type: z.literal("join_room"), // 🏷️ Discriminator tag: tells the server which action this packet is
-  roomId: z.coerce.number().int().positive(), // 🔢 Room must be a positive whole number
+  type: z.literal("join_room"),
+  roomId: z.coerce.number().int().positive(),
 });
 
-// 💬 Client broadcasts a chat/draw message into a room it already joined
+// Client broadcasts a chat message into a room it already joined
 export const WsChatSchema = z.object({
   type: z.literal("chat"),
   roomId: z.coerce.number().int().positive(),
-  message: z.string().min(1).max(2000), // ✍️ Empty spam and oversized text are both rejected here
+  message: z.string().min(1).max(2000), // empty spam and oversized text are both rejected here
 });
 
-// 🎨 Client finalizes a canvas shape into a room it already joined.
+// Client finalizes a canvas shape into a room it already joined.
 // The shape travels as a JSON string (same wire shape as chat, different table).
 export const WsDrawSchema = z.object({
   type: z.literal("draw"),
   roomId: z.coerce.number().int().positive(),
-  message: z.string().min(1).max(4000), // 📐 Rect/circle payloads are tiny; headroom for future freehand paths
+  message: z.string().min(1).max(4000), // rect/circle payloads are tiny; headroom for future freehand paths
 });
 
-// 🧹 Client deletes a canvas shape: the SAME shape JSON it once drew comes back
+// Client deletes a canvas shape: the SAME shape JSON it once drew comes back
 // as the address. Symmetric with draw, so no shape-id plumbing is needed.
 export const WsEraseSchema = z.object({
   type: z.literal("erase"),
@@ -60,8 +57,8 @@ export const WsEraseSchema = z.object({
   message: z.string().min(1).max(4000),
 });
 
-// 🖱️ Live cursor position in WORLD coordinates. Ephemeral by design: never
-// persisted, never replayed on join — it's presence, not content.
+// Live cursor position in WORLD coordinates. Ephemeral by design: never
+// persisted, never replayed on join; it's presence, not content.
 export const WsCursorSchema = z.object({
   type: z.literal("cursor"),
   roomId: z.coerce.number().int().positive(),
@@ -69,8 +66,8 @@ export const WsCursorSchema = z.object({
   y: z.number().finite(),
 });
 
-// 👥 Server -> client only: who is in a room right now. Never sent by clients,
-// so it stays OUT of the inbound union above — it's documentation + a shared type.
+// Server -> client only: who is in a room right now. Never sent by clients,
+// so it stays OUT of the inbound union below; it's documentation + a shared type.
 export const WsPresenceSchema = z.object({
   type: z.literal("presence"),
   roomId: z.number().int().positive(),
@@ -85,8 +82,8 @@ export const WsPresenceSchema = z.object({
 
 export type WsPresence = z.infer<typeof WsPresenceSchema>;
 
-// 🧠 discriminatedUnion: zod reads "type" first, then validates with only that one schema
-// (instead of trying all three and returning confusing combined errors)
+// discriminatedUnion: zod reads "type" first, then validates with only that one schema
+// (instead of trying every schema and returning confusing combined errors)
 export const WsMessageSchema = z.discriminatedUnion("type", [
   WsJoinRoomSchema,
   WsChatSchema,

@@ -4,8 +4,8 @@ import { prisma } from "@repo/db-package";
 import { WsMessageSchema } from "@repo/zod-config";
 import { broadcastPresence, users } from "./pool.js";
 
-// 📨 Wires the ws "message" listener for ONE verified connection.
-// Receives: the socket, its pool entry (mutated as the user joins rooms),
+// Wires the ws "message" listener for ONE verified connection.
+// Receives the socket, its pool entry (mutated as the user joins rooms),
 // and the verified userId from the JWT. Keeps index.ts free of protocol logic.
 export function registerMessageHandler(
   ws: WebSocket,
@@ -17,7 +17,7 @@ export function registerMessageHandler(
       const parsedData = JSON.parse(data.toString());
       const result = WsMessageSchema.safeParse(parsedData);
 
-      // 🛡️ VALIDATION GATE: reject malformed packets before they reach the handlers
+      // Validation gate: reject malformed packets before they reach the handlers
       if (!result.success) {
         ws.send(
           JSON.stringify({
@@ -30,16 +30,13 @@ export function registerMessageHandler(
 
       const payload = result.data;
 
-      // 🟢 ACTION: Join Room
       if (payload.type === "join_room") {
         const roomId = payload.roomId;
 
-        // 🔒 THE SAFETY GATE: Check if the room exists in your Room table
         const targetRoom = await prisma.room.findUnique({
           where: { id: roomId },
         });
 
-        // 🚨 THE REJECTION: Stop them if they passed an imaginary room ID
         if (!targetRoom) {
           ws.send(
             JSON.stringify({
@@ -47,19 +44,17 @@ export function registerMessageHandler(
               message: `Join failed: Room ${roomId} does not exist.`,
             }),
           );
-          return; // Exits early safely
+          return;
         }
 
-        // 🟢 THE SUBSCRIPTION: idempotent - joining twice is harmless
+        // Idempotent: joining twice is harmless
         if (!currentUser.rooms.includes(roomId)) {
           currentUser.rooms.push(roomId);
-          console.log(
-            `👤 User ${userId} successfully subscribed to room: ${roomId}`,
-          );
+          console.log(`User ${userId} subscribed to room: ${roomId}`);
         }
 
-        // 🧱 Joining IS membership: the room pins itself to this user's wall.
-        // Fail-soft — a wall row must never block the actual room join.
+        // Joining IS membership: the room pins itself to this user's wall.
+        // Fail-soft, because a wall row must never block the actual room join.
         try {
           await prisma.roomMember.upsert({
             where: { userId_roomId: { userId, roomId } },
@@ -67,10 +62,10 @@ export function registerMessageHandler(
             create: { userId, roomId },
           });
         } catch (dbError: any) {
-          console.error("⚠️ Failed to record room membership:", dbError.message);
+          console.error("Failed to record room membership:", dbError.message);
         }
 
-        // ✅ Always confirm success, even if they were already subscribed
+        // Confirm success even if they were already subscribed
         ws.send(
           JSON.stringify({
             type: "status",
@@ -79,18 +74,17 @@ export function registerMessageHandler(
           }),
         );
 
-        // 👥 Everyone in the room (including the joiner) learns the new roster
+        // Everyone in the room (including the joiner) learns the new roster
         broadcastPresence(roomId);
       }
 
-      // 🟢 ACTION: Real-Time Chat/Vector Broadcast
       if (payload.type === "chat") {
         const roomId = payload.roomId;
         const message = payload.message;
 
-        // 🟢 VALIDATE FIRST: only members of the room may write to it
+        // Only members of the room may write to it
         if (currentUser.rooms.includes(roomId)) {
-          // 💾 DURABILITY GATE: persist before broadcasting, so a crash can never
+          // Durability gate: persist before broadcasting, so a crash can never
           // leave a message that people saw live but history never stored.
           try {
             await prisma.chat.create({
@@ -101,17 +95,17 @@ export function registerMessageHandler(
               },
             });
           } catch (dbError: any) {
-            console.error("❌ Failed to save chat message:", dbError.message);
+            console.error("Failed to save chat message:", dbError.message);
             ws.send(
               JSON.stringify({
                 type: "error",
                 message: "Message could not be saved. Please try again.",
               }),
             );
-            return; // 🚫 never broadcast a message that is not in Postgres
+            return; // never broadcast a message that is not in Postgres
           }
 
-          // 🟢 DISTRIBUTE REAL-TIME BROADCASTS (only after the row is committed)
+          // Broadcast only after the row is committed
           users.forEach((user) => {
             if (
               user.rooms.includes(roomId) &&
@@ -130,7 +124,6 @@ export function registerMessageHandler(
             }
           });
         } else {
-          // 🚨 ERROR GATEWAY: Triggered if they attempt to broadcast strings without joining first
           ws.send(
             JSON.stringify({
               type: "error",
@@ -138,12 +131,12 @@ export function registerMessageHandler(
             }),
           );
           console.warn(
-            `⚠️ Blocked unauthorized broadcast attempt from User ${userId} targeting room ${roomId}`,
+            `Blocked unauthorized broadcast attempt from User ${userId} targeting room ${roomId}`,
           );
         }
       }
 
-      // 🎨 ACTION: Canvas shape finalized -> persist to the Shape table, relay to roommates.
+      // Canvas shape finalized -> persist to the Shape table, relay to roommates.
       // Mirrors the chat flow on purpose: same membership gate, same write-then-broadcast order.
       if (payload.type === "draw") {
         const roomId = payload.roomId;
@@ -159,7 +152,7 @@ export function registerMessageHandler(
               },
             });
           } catch (dbError: any) {
-            console.error("❌ Failed to save canvas shape:", dbError.message);
+            console.error("Failed to save canvas shape:", dbError.message);
             ws.send(
               JSON.stringify({
                 type: "error",
@@ -169,7 +162,7 @@ export function registerMessageHandler(
             return;
           }
 
-          // 🟢 Relay to everyone else in the room (the drawer already rendered it locally)
+          // Relay to everyone else in the room (the drawer already rendered it locally)
           users.forEach((user) => {
             if (
               user.rooms.includes(roomId) &&
@@ -196,9 +189,9 @@ export function registerMessageHandler(
           );
         }
       }
-      // 🖱️ ACTION: Live cursor. Ephemeral presence, NOT content: no database
-      // write, no history, no echo to the sender (their own pointer is already
-      // on screen). Membership is the only gate — same as draw/chat.
+      // Live cursor. Ephemeral presence, NOT content: no database write,
+      // no history, no echo to the sender (their own pointer is already
+      // on screen). Membership is the only gate, same as draw/chat.
       if (payload.type === "cursor") {
         const roomId = payload.roomId;
 
@@ -222,7 +215,7 @@ export function registerMessageHandler(
           });
         }
       }
-      // 🧹 ACTION: Canvas shape deleted -> remove the matching row, relay to roommates.
+      // Canvas shape deleted -> remove the matching row, relay to roommates.
       // The packet carries the shape's own JSON (same addressing as draw); identical
       // twins are indistinguishable on screen anyway, so deleting the most recent
       // match keeps every client consistent.
@@ -249,7 +242,7 @@ export function registerMessageHandler(
           try {
             await prisma.shape.delete({ where: { id: row.id } });
           } catch (dbError: any) {
-            console.error("❌ Failed to delete canvas shape:", dbError.message);
+            console.error("Failed to delete canvas shape:", dbError.message);
             ws.send(
               JSON.stringify({
                 type: "error",
@@ -259,7 +252,7 @@ export function registerMessageHandler(
             return;
           }
 
-          // 🟢 Relay to everyone else in the room (the eraser already removed it locally)
+          // Relay to everyone else in the room (the eraser already removed it locally)
           users.forEach((user) => {
             if (
               user.rooms.includes(roomId) &&
@@ -285,10 +278,7 @@ export function registerMessageHandler(
         }
       }
     } catch (parseError) {
-      console.error(
-        "❌ Malformed payload received, skipping loop:",
-        parseError,
-      );
+      console.error("Malformed payload received:", parseError);
       ws.send(
         JSON.stringify({
           type: "error",

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-// 💬 The room chat as a floating popup note — a paper card that springs out
+// The room chat as a floating popup note: a paper card that springs out
 // of the chat sticker in the corner. Purely presentational; Canvas owns the
 // socket, the history fetch, and the open/close state.
 export interface ChatMessage {
@@ -28,7 +28,7 @@ export function ChatPopup({
   canSend: boolean;
   onClose: () => void;
 }) {
-  // 📜 the thread always sits at the newest note — live sends AND history loads
+  // The thread always sits at the newest note, for live sends AND history loads
   const threadRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = threadRef.current;
@@ -42,7 +42,7 @@ export function ChatPopup({
           <span className="font-hand text-xl font-semibold text-[#26234f] dark:text-zinc-100">
             room notes
           </span>
-          {/* 🟢 green LIVE badge — same "connection is live" language as the presence dot */}
+          {/* Green LIVE badge: same "connection is live" language as the presence dot */}
           <span className="flex items-center gap-1 rounded-full border border-emerald-600/30 bg-emerald-50 px-2 py-0.5 text-[10px] uppercase tracking-wider text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/15 dark:text-emerald-300">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             Live
@@ -73,7 +73,7 @@ export function ChatPopup({
         className="flex flex-1 flex-col gap-2 overflow-y-auto px-3 py-3"
       >
         {chats.map((m, i) => {
-          // 👤 history carries real ids; the optimistic "me" sentinel matches too
+          // History carries real ids; the optimistic "me" sentinel matches too
           const isMe = m.userId === myUserId || m.userId === "me";
           return (
             <div

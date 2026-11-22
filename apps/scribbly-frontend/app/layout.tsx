@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Caveat } from "next/font/google";
 import "./globals.css";
 
-// ✍️ Caveat powers the sticker notes and hand-written annotations across the site
+// Caveat powers the sticker notes and hand-written annotations across the site
 const caveat = Caveat({
   variable: "--font-caveat",
   subsets: ["latin"],
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${caveat.variable} h-full antialiased`}
     >
-      {/* 🧩 Extensions inject attributes (e.g. ColorZilla's cz-shortcut-listen) - ignore that hydration noise */}
+      {/* Extensions inject attributes (e.g. ColorZilla's cz-shortcut-listen); ignore that hydration noise */}
       <body suppressHydrationWarning className="min-h-full flex flex-col">
         {children}
       </body>

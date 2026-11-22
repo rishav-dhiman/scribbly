@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Card } from "@repo/ui";
 
-// 🩹 A strip of washi tape holding a paper card up.
+// A strip of washi tape holding a paper card up.
 export function Tape({
   className = "",
   rotate = -3,
@@ -18,7 +18,7 @@ export function Tape({
   );
 }
 
-// 🧾 Cream paper panel from the landing CTA — slightly tilted, straightens on hover.
+// Cream paper panel from the landing CTA, slightly tilted and straightening on hover.
 // Pages drop their content in; tape + tilt are optional.
 export function PaperCard({
   children,
