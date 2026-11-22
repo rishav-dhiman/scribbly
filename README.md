@@ -3,7 +3,7 @@
 A collaborative, hand-drawn whiteboard inspired by Excalidraw: boxes, arrows, freehand
 doodles, sticky notes, live cursors and per-room chat — all shared in real time on one canvas.
 
-> **Live demo:** _add the deployed URL here_
+> **Live demo:** [scribbly-board.vercel.app](https://scribbly-board.vercel.app/)
 
 ## Screenshots
 
