@@ -106,13 +106,13 @@ export default function Home() {
       <header className="sticky top-0 z-40 border-b border-white/5 bg-zinc-950/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
           <Link href="/" className="group flex items-center gap-2.5">
-            <span className="flex h-8 w-8 -rotate-6 items-center justify-center rounded-md bg-[#6965db] font-hand text-lg font-bold text-white shadow-[2px_2px_0_0_#27272a] transition-transform duration-300 group-hover:rotate-3">
+            <span className="flex h-9 w-9 -rotate-6 items-center justify-center rounded-[10px] bg-[#6965db] font-hand text-xl font-bold leading-none text-white shadow-[2px_2px_0_0_#4a47a3] ring-1 ring-white/20 transition-transform duration-300 group-hover:rotate-3">
               S
             </span>
-            <span className="text-sm font-semibold tracking-tight text-zinc-100">
+            <span className="font-hand text-2xl font-semibold leading-none text-zinc-100">
               Scribbly
             </span>
-            <span className="hidden rotate-2 rounded-sm bg-[#f3e3a3] px-1.5 py-0.5 font-hand text-sm font-semibold text-[#3f3310] sm:inline">
+            <span className="hidden rotate-3 rounded-sm bg-[#f3e3a3] px-1.5 py-0.5 font-hand text-sm font-semibold text-[#3f3310] shadow-[1px_1px_0_0_rgba(0,0,0,0.35)] sm:inline">
               beta-ish
             </span>
           </Link>
