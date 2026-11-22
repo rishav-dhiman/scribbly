@@ -14,6 +14,9 @@ const prismaClientSingleton = () => {
     idleTimeoutMillis: 60_000,
     // 📡 Let the OS detect a dead socket instead of failing a query with it
     keepAlive: true,
+    // 🚪 Don't let idle sockets hold scripts open (seed hung after its last log);
+    // long-running servers stay alive via their own listener anyway
+    allowExitOnIdle: true,
   });
   
   // 2. Wrap the pool inside Prisma's driver adapter wrapper
