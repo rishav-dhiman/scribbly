@@ -7,12 +7,8 @@ doodles, sticky notes, live cursors and per-room chat — all shared in real tim
 
 ## Screenshots
 
-> _Screenshots and a GIF walkthrough will be added alongside the live demo._
-
-<!-- After deploy, add compact WebP images (1100px wide) and link them here:
-![Room with shapes, sticky notes and live cursors](docs/board.webp)
-![Lobby with room cards](docs/lobby.webp)
--->
+![Scribbly landing page](docs/landing.webp)
+![A Scribbly board with shapes, sticky notes and a text label](docs/board.webp)
 
 ## Features
 
