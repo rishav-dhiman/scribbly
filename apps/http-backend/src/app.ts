@@ -34,6 +34,11 @@ app.use(cookieParser());
 // express.json turns JSON request bodies into req.body
 app.use(express.json());
 
+// Liveness probe for uptime monitors; DB-free so Neon can stay autosuspended
+app.get("/health", (_req, res) => {
+  res.json({ ok: true });
+});
+
 // One router per domain: each file in routes/ owns a slice of the URL space
 app.use(authRouter); //   /signup /signin /me /logout
 app.use(roomsRouter); //  /rooms (create + list) /rooms/:slug (lookup)
