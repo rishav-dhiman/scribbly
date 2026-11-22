@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Local Environment Secrets
+.env
+.env.*
+*.env
+# ...but keep the shareable, secret-free templates tracked
+!.env.example
+
+# Build Outputs & Cache
+dist/
+build/
+.turbo/
+.vercel/
+.next/
+out/
+*.tsbuildinfo
+
+# Prisma Generated Client
+# Ignores your auto-created typescript modules so they don't flood your Git history
+**/src/generated/
+
+# Logs & Debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage/
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.pem
+
+# Local build journal (personal notes, never published)
+changes.html

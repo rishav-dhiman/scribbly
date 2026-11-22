@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["relationJoins"]
+}
+
+datasource db {
+  provider = "postgresql" // 👈 Keep ONLY the provider here
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+  name     String
+  photo    String?
+  rooms    Room[]
+  chats    Chat[]
+  shapes   Shape[]
+  memberships RoomMember[]
+}
+
+model Room {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  adminId   String
+  admin     User     @relation(fields: [adminId], references: [id])
+  chats     Chat[]
+  shapes    Shape[]
+  members   RoomMember[]
+}
+
+// 🧱 Personal-wall membership: a room shows on your wall because you created
+// it OR joined it. The creator is always a member (backfilled + on create).
+model RoomMember {
+  id       String   @id @default(uuid())
+  userId   String
+  roomId   Int
+  joinedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // 🗑️ Membership dies with the room (shapes/chats cascade the same way)
+  room     Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roomId])
+  @@index([userId])
+}
+
+model Chat {
+  id        Int      @id @default(autoincrement())
+  message   String
+  userId    String
+  roomId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  // 🗑️ Messages belong to the room: deleting the room deletes its messages
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}
+
+// 🎨 One drawn element on a room's canvas. The element itself (rect / circle / ...)
+// is stored as JSON in `shape` so new tool kinds never need a migration.
+model Shape {
+  id        Int      @id @default(autoincrement())
+  shape     String
+  userId    String
+  roomId    Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  // 🗑️ Shapes belong to the room, exactly like chats
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+}
+

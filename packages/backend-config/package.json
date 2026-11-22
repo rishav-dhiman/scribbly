@@ -1,0 +1,27 @@
+{
+  "name": "@repo/backend-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/config.ts",
+  "types": "./src/config.ts",
+  "exports": {
+    ".": {
+      "types": "./src/config.ts",
+      "default": "./src/config.ts"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^18.0.7"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "26.4.1"
+  }
+}

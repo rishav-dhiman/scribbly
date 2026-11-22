@@ -1,0 +1,27 @@
+{
+  "name": "@repo/zod-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/zod.ts",
+  "types": "./src/zod.ts",
+  "exports": {
+    ".": {
+      "types": "./src/zod.ts",
+      "default": "./src/zod.ts"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "26.4.1"
+  }
+}

@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+/* 🧩 Scan the shared UI package so its utilities are generated here too */
+@source "../../../packages/**/*.{ts,tsx}";
+
+/* 🌗 Board theme switch: `dark:` utilities follow a CLASS, not the OS.
+   The room root flips .theme-dark/.theme-light; everything inside inherits. */
+@custom-variant dark (&:where(.theme-dark, .theme-dark *));
+
+/* 🎨 Canvas palette tokens. The engine cannot use Tailwind classes, so it
+   reads these custom properties off the canvas's computed style. */
+.theme-light {
+  --board-ink: #6965db;
+  --board-note: #f3e3a3;
+  --board-note-ink: #26234f;
+  --board-select: #e0393e;
+  --board-note-shadow: rgba(38, 35, 79, 0.18);
+  color-scheme: light;
+}
+
+.theme-dark {
+  /* 🌙 Matches the landing mini-board: near-black studio, violet-200 marker,
+     amber paper notes */
+  --board-ink: #b9b5ff;
+  --board-note: #f3e3a3;
+  --board-note-ink: #3f3310;
+  --board-select: #f87171;
+  --board-note-shadow: rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+:root {
+  /* 🎨 Dark studio desk: chat-app zinc with a violet marker and warm paper accents */
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --ink: #f4f4f5;
+  --accent: #8b87f5;
+  /* 🧩 Shared UI tokens (@repo/ui) mirroring the zinc chat skin, violet primary */
+  --ui-fg: #f4f4f5;
+  --ui-muted: #a1a1aa;
+  --ui-placeholder: #71717a;
+  --ui-label: #a1a1aa;
+  --ui-border: #27272a;
+  --ui-border-strong: #3f3f46;
+  --ui-border-hover: #52525b;
+  --ui-outline-fg: #e4e4e7;
+  --ui-focus: #8b87f5;
+  --ui-focus-ring: rgb(139 135 245 / 0.35);
+  --ui-field-bg: #09090b;
+  --ui-surface: rgb(24 24 27 / 0.5);
+  --ui-hover: rgb(255 255 255 / 0.06);
+  --ui-solid-bg: #6965db;
+  --ui-solid-fg: #ffffff;
+  --ui-solid-hover: #5b57c9;
+  --ui-solid-disabled-bg: #27272a;
+  --ui-solid-disabled-fg: #71717a;
+  --ui-disabled-border: #27272a;
+  --ui-disabled-fg: #52525b;
+  /* 🌙 Native controls (inputs, scrollbars) follow the dark skin */
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-accent: var(--accent);
+  /* 🖋️ Body + mono use the same system stack as apps/web; only hand-writing is custom */
+  --font-hand: var(--font-caveat);
+}
+
+@theme {
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-pulse-soft: pulse-soft 2.4s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: #3f3f46 transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+::selection {
+  background: rgb(105 101 219 / 0.45);
+  color: #fff;
+}
+
+/* 🖱️ Scrollbar matches the zinc chat shell */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border: 2px solid #09090b;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* 🌾 Fine grain so big zinc fields read as material, not flat CSS */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+}
+
+/* ✒️ Scenes draw themselves on load, as if someone just sketched them */
+@keyframes ink-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ink {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ink-draw 1.5s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+/* 👥 Other people's cursors wander while nobody is pointing */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  30% {
+    transform: translate(58px, -24px);
+  }
+  65% {
+    transform: translate(16px, 30px);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  35% {
+    transform: translate(-42px, 24px);
+  }
+  70% {
+    transform: translate(-8px, -32px);
+  }
+}
+
+.cursor-a {
+  animation: drift-a 13s ease-in-out infinite alternate;
+}
+
+.cursor-b {
+  animation: drift-b 17s ease-in-out infinite alternate;
+}
+
+/* 🪜 The step path inks itself in as its section scrolls into view */
+@keyframes trail {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .trail {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: trail linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+  }
+}
+
+/* 🎞️ Respect users who asked their OS for less motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-marquee,
+  .animate-float,
+  .animate-float-slow,
+  .animate-pulse-soft,
+  .ink,
+  .cursor-a,
+  .cursor-b {
+    animation: none !important;
+  }
+
+  .ink {
+    stroke-dashoffset: 0;
+  }
+}
